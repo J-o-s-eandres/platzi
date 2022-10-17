@@ -74,7 +74,7 @@ require_once "Conexion.php";
         
         public function getCursos($idcurso){
             try{
-                $consulta = $this->acceso->prepare("CALL spu_cursos_obtener");
+                $consulta = $this->acceso->prepare("CALL spu_cursos_obtener(?)");
                 $consulta->execute(array($idcurso));
 
                 return $consulta->fetch(PDO::FETCH_ASSOC);

@@ -388,7 +388,7 @@
                         $(".modal-header").addClass("bg-info");
 
 
-                        $("#modal-cursos").modal("show");
+                        $("#modal-curso").modal("show");
                         datosNuevos = false;
                         console.log(result);
 
