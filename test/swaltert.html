@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Alert</title>
+
+    <!--  Boostrap 4.6 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+</head>
+<body>
+
+    <div class="container mt-4">
+        <button type="button" class="btn btn-primary" id="alerta">Alerta</button>
+        <button type="button" class="btn btn-primary" id="pregunta">Pregunta</button>
+        <button type="button" class="btn btn-primary" id="entrada">Entrada</button>
+
+         <!--  Ejemplos Sweet Alert -->
+        <button type="button" class="btn btn-info" id="sw-alerta-1">Alerta</button>
+        <button type="button" class="btn btn-info" id="sw-alerta-2">Alerta</button>
+        <button type="button" class="btn btn-info" id="sw-alerta-3">Alerta</button>
+        <button type="button" class="btn btn-info" id="sw-pregunta">Pregunta</button>
+        <button type="button" class="btn btn-info" id="sw-toast">Toast</button>
+
+    </div>
+    
+
+      <!-- Libreria jQuery -->
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+      
+      <!-- SweetAlert -->
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+      <script>
+        $(document).ready(function (){
+            //Aplicando librería SweetAlert
+
+            $("#sw-alerta-1").click(function (){
+                Swal.fire("ventas","Guardado correctamente","success");
+            });
+
+            $("#sw-alerta-2").click(function (){
+                Swal.fire({
+                    titile :'Ventas',
+                    text    : "Guardaddo Correctamente",
+                    icon    : "success",
+                    confirmButtonText : "Aceptar",
+                    showConfirmButton : false,
+                    timer : 1000
+                });
+            });
+
+            $("#sw-alerta-3").click(function (){
+                Swal.fire({
+                    title: "Envio",
+                    text : "Enviado correctamente",
+                    icon : "success",
+                    html : "<strong> Importante</strong>"+
+                           "error en el <span style='color:red'>"+
+                           "correo de destino</span>",
+                    confirmButtonText : "Aceptar",
+                    position : "bottom-end",
+                    footer : " <a href='#'>Ingeniería de software</a>",
+                    allowOutsideClick : false,
+                    allowEscapeKey : false
+                });
+            });
+            
+            $("#sw-pregunta").click(function (){
+                Swal.fire({
+                    title: "Sistema de Alquiler",
+                    text : "¿Está seguro de proceder?",
+                    icon: 'question',
+                    footer: "Ingeniría de Software",
+                    confirmButtonText : "Aceptar",
+                    confirmButtonColor: "#33A5FF",
+                    showCancelButton : true,
+                    cancelButtonText : "Cancelar"                  
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        console.log("El usuario confirmó");
+                    }
+                });
+            });
+            
+            $("#sw-toast").click(function (){
+                Swal.fire({
+                    title: "SENATI",
+                    html : "<strong> Registro actualizado correctamente</strong>",
+                    //text : "Registro actualizado correctamente",
+                    showConfirmButton : false,
+                    icon : "success",
+                    toast : true,
+                    timer : 2000,
+                    position : "bottom-end",
+                    background : "#667F92"
+                });
+            });
+            
+            
+            //funciones tradicionales de JS           
+            $("#alerta").click(function (){
+                alert("Hola mundo cruel");
+            });
+
+            $("#pregunta").click(function (){
+                
+                if (confirm("¿Eres Programador?")){
+                    alert("Genial");
+                }
+            });
+
+            $("#entrada").click(function (){
+                let nombre =prompt("Escribe tu nombre");
+                alert(`un gusto saludarte ${nombre}`);
+            });
+
+
+        });
+      </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de Imagenes</title>
+    <link rel="stylesheet" href="../vendor/lightbox/css/lightbox.min.css">
+</head>
+<body>
+
+<a href="images/gatitoGamer.jpg" data-lightbox="gato" data-title="Gatito Gamer" >Gatito</a>
+<a href="images/arduino.jpg" data-lightbox="gato" data-title="Arduino" >Gatito</a>
+<a href="images/culer.jpg" data-lightbox="gato" data-title="Culer" >Gatito</a>
+
+<!-- Libreria jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        
+
+<!-- Lightbox -->
+    <script src="../vendor/lightbox/js/lightbox.min.js"></script>
+
+
+<script>
+    $(document).ready(function (){
+
+    // Configurar el lightbox
+
+        lightbox.option({
+            'resizeDuration': 300,
+            'albumLabel' : 'Algo %1 de %2'
+
+     });
+
+    });
+</script>
+
+</body>
+</html>

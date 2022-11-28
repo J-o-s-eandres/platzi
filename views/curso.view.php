@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+// si no existe la sesión
+if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
+    header("Location:../index.php");
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +15,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cursos</title>
+
+    <link rel="stylesheet" href="../vendor/lightbox/css/lightbox.min.css">
+
+        <!-- fon awesome  -->
+        <script src="https://kit.fontawesome.com/044457a684.js" crossorigin="anonymous"></script>
 
     <!--  Boostrap 4.6 -->
 
@@ -20,7 +34,9 @@
     <div class="mt-2" style='width: 95%; margin: 0 auto;'>
 
         <h2 class="text-center mb-4">Módulo de Cursos</h2>
+        <p class="text-center"> <?= $_SESSION['apellidos']?> <?= $_SESSION['nombres'] ?> </p>
         <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#modal-curso" id="mostrar-modal-registro">Registrar un Curso</button>
+        <a href="../controllers/usuario.controller.php?operacion=cerrar-sesion" class="btn btn-danger">Cerrar sesión</a>
         <hr>
 
         <div class="table-responsive">
@@ -59,7 +75,8 @@
                 <div class="modal-body">
 
                     <!-- Formulario de registro de Cursos -->
-                    <form action="" id="formulario-cursos" autocomplete="off">
+                    <!-- enctype="multipart/form-data esto le permite al formulario enviar binarios -->
+                    <form  id="formulario-cursos" autocomplete="off" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="escuelas">Escuelas:</label>
                             <select name="escuelas" id="escuelas" class="form-control form-control-sm">
@@ -85,7 +102,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="fechainicio">Precio:</label>
+                            <label for="fechainicio">Fecha de Inicio:</label>
                             <input type="text" class="form-control form-control-sm" id="fechainicio">
                         </div>
 
@@ -106,14 +123,18 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="precio">Fecha:</label>
-                                <input type="text" class="form-control form-control-sm" id="precio">
+                                <label for="precio">Precio:</label>
+                                <input type="text" class="form-control form-control-sm"  id="precio">
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fotografia">Selecciona imagen: </label>
+                            <input type="file" id="fotografia" accept="image/*" class="form-control-file">
                         </div>
                         <!-- Fin del formulario -->
                     </form>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" id="cancelar-modal" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-sm btn-primary" id="guardar-curso">Guardar</button>
@@ -126,6 +147,13 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
+    <!-- Lightbox -->
+    <script src="../vendor/lightbox/js/lightbox.min.js"></script>
+
+
+      <!-- jQuery Mask  -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+       
     <!-- Boostrap 4.6 -->
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -134,10 +162,31 @@
     <!-- Datatable -->
 
     <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    
 
-
+    
+<!-- Libreria Sweet Alert2 -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ 
     <script>
         $(document).ready(function() {
+
+            // enmascaramos la fecha
+            $('#fechainicio').mask('2022-00-00', {placeholder: 'yyyy-mm-dd'}); //placeholder
+
+            function alertarToast(titulo = "",textoMensaje = "", icono = ""){
+                Swal.fire({
+                    title   : titulo,
+                    text    : textoMensaje,
+                    icon    : icono,
+                    toast   : true,
+                    position : 'bottom-end',
+                    showConfirmButton   : false,
+                    timer   : 1500,
+                    timerProgressBar    : true
+                });
+            }
+
 
             //Definimos idcurso,datosNuevos y datos de manera Global (scope)
 
@@ -169,6 +218,7 @@
                         let nuevoFila=``;
                         
                         let dificultad ='';
+                        
 
                         
 
@@ -188,15 +238,18 @@
                                 <td>${registro['nombre pila']}</td>
                                 <td>${registro['titulo']}</td>
                                 <td>${registro['descripcion']}</td>
-                               
+                            
                                 <td>${dificultad}</td>   
-                                                         
+                                                        
                                 <td>${registro['precio']}</td>
                                 <td>${registro['fechainicio']}</td>
                                 <td>
-                                    <a href='#' data-idcurso='${registro['idcurso']}' class='btn btn-sm btn-danger eliminar'>Eliminar</a>
-                                    <a href='#' data-idcurso='${registro['idcurso']}' class='btn btn-sm btn-info editar'>Editar</a>
-                                </td>
+                                    <a href='#' data-idcurso='${registro['idcurso']}' class='btn btn-sm btn-danger eliminar' title='Eliminar'><i class='fa-solid fa-trash'></i></a>
+                                    <a href='#' data-idcurso='${registro['idcurso']}' class='btn btn-sm btn-info editar' title='Editar'><i class='fa-solid fa-arrows-rotate'></i></a>
+                                    <a href='# data-curso='' class='btn btn-sm btn-warning' title='Mostrar imagen'><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+
+                                    
+                                    </td>
                                 </tr>
                             `;
                             $("#tabla-cursos tbody").append(nuevaFila);
@@ -273,7 +326,7 @@
             }//fin de la función reiniciarformulario()
 
 
-            //registro-actualización de cursos
+            //registro-actualización de cursos sin archivo BINARIO(JPG)
             function registrarCursos() {
             
 
@@ -313,20 +366,65 @@
                                 reiniciarformulario();
                                //cerrar modal 
                             $("#modal-curso").modal("hide");
-
-                            
-                            
-                            
-
+                
                         }
-
-
                     })//fin ajax
 
-
                 }//fin del confirm
-
             }//fin de la función  registrarCursos()
+
+            
+
+            //registrar enviando binario(PDF,JPG,XLSX,DOCX, etc,)
+            //enviaremos los datos utilizando POST
+            function registrarCursoBin(){
+                //1. Validación
+
+                //2. Crear un objeto FormData(reemplazara al array asociativo)
+            if(confirm("¿Está seguro de guardar?")){
+                    var formdata = new FormData();
+                
+                
+                //3. Enviando parámetros
+                formdata.append("operacion","registrarCursos");
+                formdata.append("idescuela",$("#escuelas").val());
+                formdata.append("idprofesor",$("#profesores").val());
+                formdata.append("titulo",$("#titulo").val());
+                formdata.append("descripcion",$("#descripcion").val());
+                formdata.append("dificultad",$("#dificultad").val());
+                formdata.append("precio",$("#precio").val());
+                formdata.append("fechainicio",$("#fechainicio").val());
+                
+                // formdata soporta objetos binarios
+                formdata.append("fotografia", $("#fotografia")[0].files[0]);
+
+                
+                //4. Enviar datos por AJAX
+                $.ajax({
+                    url:'../controllers/curso.controller.php',
+                    type:'POST',
+                    data: formdata,
+                    contentType:false,
+                    processData : false,
+                    cache:false,
+                    success : function(result){
+                            console.log(result);
+                            if(result == ""){
+                                // Confirmar envio
+                                alert("Proceso terminado correctamente");
+
+                                // Reconstruir DataTable
+                                mostrarCuros();
+                                
+                                // Reiniciar el formulario a su estado original 
+                                reiniciarformulario();
+                               //cerrar modal 
+                            $("#modal-curso").modal("hide");
+                        } //fin if
+                    }//fin success
+                });// fin ajax
+            }        //fin if confirm
+        }// fin función registrarCursoBin
 
 
             $("#tabla-cursos tbody").on("click", ".eliminar", function (){
@@ -374,7 +472,7 @@
                     success : function(result){
 
                         $("#escuelas").val(result['idescuela']);
-                        $("#profesores").val(result['idprofesores']);
+                        $("#profesores").val(result['idprofesor']);
                         $("#titulo").val(result['titulo']);
                         $("#descripcion").val(result['descripcion']);
                         $("#dificultad").val(result['dificultad']);
@@ -386,12 +484,10 @@
                         $("#titulo-modal-cursos").html("Actualizar Datos");
                         $(".modal-header").removeClass("bg-primary");
                         $(".modal-header").addClass("bg-info");
-
-
+                        
                         $("#modal-curso").modal("show");
                         datosNuevos = false;
                         console.log(result);
-
 
                     }
                 });
@@ -400,8 +496,8 @@
 
 
             //agg una función al botón de registrar un curso
-
             function abrirModalRegistro(){
+                reiniciarformulario();
 
                 datosNuevos = true;
                 //le indicamos el titulo del modal y su clase 
@@ -412,18 +508,17 @@
 
             }
 
-
             // Eventos 
             $("#mostrar-modal-registro").click(abrirModalRegistro);
-            $("#guardar-curso").click(registrarCursos);
-           
+            $("#guardar-curso").click(registrarCursoBin);
+
             //funciones de carga automática
             listarEscuelas();
             listarProfesores();
             mostrarCuros();
         });
-    </script>
+     </script>
 
-</body>
+   </body>
 
 </html>

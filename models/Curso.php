@@ -42,7 +42,7 @@ require_once "Conexion.php";
         public function registrarCursos($datosGuardar){
             try{
             //Cada ? (comodinn) es una variable que requiere el spu
-            $consulta = $this->acceso->prepare("CALL spu_cursos_registrar(?,?,?,?,?,?,? )");
+            $consulta = $this->acceso->prepare("CALL spu_cursos_registrar(?,?,?,?,?,?,?,?,?)");
 
             $consulta->execute(array(
                 $datosGuardar['idescuela'],
@@ -50,14 +50,17 @@ require_once "Conexion.php";
                 $datosGuardar['titulo'],
                 $datosGuardar['descripcion'],
                 $datosGuardar['dificultad'],
-                $datosGuardar['precio'],
-                $datosGuardar['fechainicio']
+                $datosGuardar['fechainicio'],
+                $datosGuardar['precio'],          
+                $datosGuardar['idusuario'],
+                $datosGuardar['imagen']
+                
             ));
             //no retorna datos
 
             }catch(Exception $e){
             die($e->getMessage());
-         }
+        }
         }
 
         public function eliminarCursos ($idcurso){
@@ -95,8 +98,9 @@ require_once "Conexion.php";
                 $datosGuardar['titulo'],
                 $datosGuardar['descripcion'],
                 $datosGuardar['dificultad'],
-                $datosGuardar['precio'],
-                $datosGuardar['fechainicio']
+                $datosGuardar['fechainicio'],
+                $datosGuardar['precio']
+                
                 ));
 
             }catch(Exception $e){
