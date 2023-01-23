@@ -4,5 +4,7 @@ proyecto para simular el sistama interno de la administracion de cursos de la pl
 
 Sistema con login encriptado 
 DB MySQL
-Backend PHP
+BackEnd PHP
 Arquitectura MVC
+Alertas con Sweet Alert
+FrontEnd con HTML ,CSS , JS Y Boopstrap
