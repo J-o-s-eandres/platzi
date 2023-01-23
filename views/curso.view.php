@@ -31,6 +31,24 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
 </head>
 
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+<a class="navbar-brand" href="index.php">Platzi</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+        <a class="nav-link " href="#">Repositorio</a>
+        <a class="nav-link"  href="users-list.php">Usuarios</a>
+
+    </div>
+</div>
+</nav>
+
+
     <div class="mt-2" style='width: 95%; margin: 0 auto;'>
 
         <h2 class="text-center mb-4">Módulo de Cursos</h2>
@@ -228,6 +246,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
                         $("#tabla-cursos tbody").html("");
 
                         registros.forEach(registro =>{
+                           // numeroSerie = (registro['numeroSerie']==null): registro['numeroSerie'];
+                            imagen = (registro['imagen']==null) ?'sin-imagen.jpg':registro['imagen'];
 
                             dificultad = registro['dificultad'] == null ? '' : registro['dificultad'];
 
@@ -246,7 +266,11 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
                                 <td>
                                     <a href='#' data-idcurso='${registro['idcurso']}' class='btn btn-sm btn-danger eliminar' title='Eliminar'><i class='fa-solid fa-trash'></i></a>
                                     <a href='#' data-idcurso='${registro['idcurso']}' class='btn btn-sm btn-info editar' title='Editar'><i class='fa-solid fa-arrows-rotate'></i></a>
-                                    <a href='# data-curso='' class='btn btn-sm btn-warning' title='Mostrar imagen'><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+                                    <a href='images/cursos/${imagen}'
+                                    data-lightbox='demo' 
+                                    data-title='${registro['descripcion']}'
+                                    class='btn btn-sm btn-warning' 
+                                    title='Mostrar foto del curso'><i class='fa-solid fa-eye'></i></a>
 
                                     
                                     </td>
@@ -471,6 +495,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
                     },
                     success : function(result){
 
+
                         $("#escuelas").val(result['idescuela']);
                         $("#profesores").val(result['idprofesor']);
                         $("#titulo").val(result['titulo']);
@@ -478,9 +503,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
                         $("#dificultad").val(result['dificultad']);
                         $("#precio").val(result['precio']);
                         $("#fechainicio").val(result['fechainicio']);
-
+                        
                         //Cambiando configuración modal
-
                         $("#titulo-modal-cursos").html("Actualizar Datos");
                         $(".modal-header").removeClass("bg-primary");
                         $(".modal-header").addClass("bg-info");
@@ -488,10 +512,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
                         $("#modal-curso").modal("show");
                         datosNuevos = false;
                         console.log(result);
-
                     }
                 });
-
             });
 
 

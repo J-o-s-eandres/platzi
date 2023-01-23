@@ -39,11 +39,26 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
 
 </style>
 
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
-<div class="mt-2" style='width: 95%; margin: 0 auto;'>
+        <a class="navbar-brand" href="index.php">Platzi</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link " href="curso.view.php">Dashboard</a>
+                <a class="nav-link" href="./views/users-list.php">Usuarios</a>
+
+            </div>
+        </div>
+    </nav>
+
+
+
 
         <h2 class="text-center mb-4">Módulo de Usuarios</h2>
-        <a href="../controllers/usuario.controller.php?operacion=cerrar-sesion" class="btn btn-danger">Cerrar sesión</a>
+        <a href="../controllers/usuario.controller.php?operacion=cerrar-sesion" class="btn btn-danger">Cerrar sesión</a>     
         <hr>
 
         <div class="table-responsive">

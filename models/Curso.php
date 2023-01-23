@@ -69,12 +69,12 @@ require_once "Conexion.php";
                 $consulta =$this->acceso->prepare("CALL spu_cursos_eliminar(?)");
                 $consulta->execute(array($idcurso));
 
-
+    
              }catch(Exception $e){
                 die($e->getMessage());
                 }
         }
-        
+       
         public function getCursos($idcurso){
             try{
                 $consulta = $this->acceso->prepare("CALL spu_cursos_obtener(?)");

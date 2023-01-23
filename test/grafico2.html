@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico 2</title>
+</head>
+<body>
+
+    <style>
+        .capa-lienzo{
+            /* haces la capa responsiva y la centras */
+            position: relative;
+            margin: auto;
+            height: 80vh;
+            width: 80vw ;
+        }
+
+        canvas{
+            border: 1px dotted gray;
+        }      
+    </style>
+
+    <div class="capa-lienzo">
+        <!-- Lienzo -->
+        <canvas id="grafico"></canvas>
+    </div>
+
+    <button type="button" id="actualizar">Actualizar Datos</button>
+
+    <!-- Librería chartJS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Datos para configurar el gráfico -->
+    <script src="js/config-chart.js"></script>
+    
+    <script>
+    // Paso 1: Manejador del Canvas
+    const ctx = document.getElementById("grafico").getContext("2d");    
+    const btActualizar = document.getElementById("actualizar");
+
+    //Paso 2 : Crear un Objeto "chart" = gráfico
+    const graficoResumen = new Chart(ctx,{
+        type: 'pie',
+        data:{
+            labels:['PHP','Python','C#','Java','C++'],
+            datasets:[{
+                label: 'Popularidad de LP',
+                data:[14,55,33,19,32],
+                backgroundColor:coloresFondo,
+                borderColor:coloresBorde,//no funciona sino tiene borderWidth
+                borderWidth:2
+            }]
+        },
+        options:configGrafico
+    });
+
+    //agregar el evento click al boton
+    btActualizar.addEventListener("click", () =>{
+        // Estos datos pueden ser obtenidos por una consulta(SQL)
+        const nuevosValores=[50,15,76,16,33];
+
+        graficoResumen.data.datasets[0].data=nuevosValores;
+        graficoResumen.update();
+
+    });
+
+    //Paso 3: Revisión del objeto gráfico
+    console.log(graficoResumen.data.datasets[0]);
+
+    </script>
+
+</body>
+</html>
